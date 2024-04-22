@@ -93,7 +93,7 @@ $domainStatus = if ($computerSystem.PartOfDomain) {
 $info | Add-Member -Type NoteProperty -Name "DomainStatus" -Value $domainStatus
 
 # Installed Applications
-$apps = @("Sentinel Agent", "Rapid7", "Cisco Secure Client","Cisco AnyConnect Secure Mobility Client"
+$apps = @("Sentinel Agent", "Rapid7", "Cisco Secure Client","Cisco AnyConnect Secure Mobility Client")
 foreach ($app in $apps) {
     $appQuery = Get-WmiObject -Query "SELECT * FROM Win32_Product WHERE Name LIKE '%$app%'"
     $appStatus = if ($appQuery) { "Installed" } else { "Not Installed" }
@@ -117,10 +117,10 @@ function Get-SaveFilePath {
     }
 }
 $savePath = Get-SaveFilePath
-if ($savePath -ne $null) {
+if ($null -ne $savePath) {
     $jsonData = $info | ConvertTo-Json
     Set-Content -Path $savePath -Value $jsonData
     Write-Output "System information exported to $savePath"
 } else {
     Write-Output "No file path selected, operation cancelled."
-}
+    }
