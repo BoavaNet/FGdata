@@ -16,6 +16,9 @@ $info = New-Object PSObject
 $computerName = $env:COMPUTERNAME
 $info | Add-Member -Type NoteProperty -Name "ComputerName" -Value $computerName
 
+$serialNumber = (Get-WmiObject -Query "Select * from Win32_BIOS").SerialNumber
+$info | Add-Member -Type NoteProperty -Name "SerialNumber" -Value $serialNumber
+
 # hardware components information
 $cpu = Get-WmiObject -Query "Select * from Win32_Processor" | Select-Object Name, NumberOfCores, MaxClockSpeed
 $ram = Get-WmiObject -Query "Select * from Win32_PhysicalMemory"
